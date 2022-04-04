@@ -1,4 +1,3 @@
-import "./App.css";
 import { useState } from "react";
 
 function Header() {
@@ -8,6 +7,7 @@ function Header() {
     </header>
   );
 }
+
 function Nav(props) {
   const lis = [];
   for (let i = 0; i < props.topics.length; i++) {
