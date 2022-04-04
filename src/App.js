@@ -1,12 +1,5 @@
 import { useState } from "react";
 
-function Header() {
-  return (
-    <header>
-      <h1>고량주</h1>
-    </header>
-  );
-}
 
 function Nav(props) {
   const lis = [];
@@ -14,6 +7,7 @@ function Nav(props) {
     let t = props.topics[i];
     lis.push(<li key={t.id}>{t.name}</li>);
   }
+  
   return (
     <>
       <ul>{lis}</ul>
@@ -158,7 +152,9 @@ function App() {
   return (
     <div className="App">
       <div className="main">
-        <Header />
+      <header>
+        <h1>고량주</h1>
+      </header>
         <div className="container">
           <aside>
             <button
