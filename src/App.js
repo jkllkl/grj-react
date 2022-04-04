@@ -1,16 +1,14 @@
 import { useState } from "react";
 
 
-function Nav(props) {
-  const lis = [];
-  for (let i = 0; i < props.topics.length; i++) {
-    let t = props.topics[i];
-    lis.push(<li key={t.id}>{t.name}</li>);
-  }
-  
+function Nav(props) {  
   return (
     <>
-      <ul>{lis}</ul>
+      <ul>
+        {
+          props.topics.map(item => <li key={item.id}>{item.name}</li>)
+        }
+      </ul>
     </>
   );
 }
