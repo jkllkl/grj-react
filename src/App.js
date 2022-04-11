@@ -1,22 +1,14 @@
-import "./App.css";
 import { useState } from "react";
 
-function Header() {
-  return (
-    <header>
-      <h1>고량주</h1>
-    </header>
-  );
-}
-function Nav(props) {
-  const lis = [];
-  for (let i = 0; i < props.topics.length; i++) {
-    let t = props.topics[i];
-    lis.push(<li key={t.id}>{t.name}</li>);
-  }
+
+function Nav(props) {  
   return (
     <>
-      <ul>{lis}</ul>
+      <ul>
+        {
+          props.topics.map(item => <li key={item.name}>{item.name}</li>)
+        }
+      </ul>
     </>
   );
 }
@@ -26,7 +18,7 @@ function Article(props) {
   for (let i = 0; i < props.topics.length; i++) {
     let t = props.topics[i];
     box1.push(
-      <div className="box" key={t.id}>
+      <div className="box" key={t.name}>
         <img src={t.image} alt={t.content} />
         <p>{t.name}</p>
       </div>
@@ -36,16 +28,14 @@ function Article(props) {
 }
 
 function Create(props) {
+  const [data, setData] = useState({name: "", image: "", content: ""});
   return (
     <>
       <div className="item">
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            const name = event.target.name.value;
-            const image = event.target.image.value;
-            const content = event.target.content.value;
-            props.onCreate(name, image, content);
+            props.onCreate(data);
           }}
           className="item-form"
         >
@@ -67,15 +57,18 @@ function Create(props) {
             type="text"
             placeholder="이름"
             name="name"
+            onChange={(event) => setData({...data, name: event.target.value})}
           />
           <p>이미지</p>
-          <input name="image" className="image" type="text" placeholder="url" />
+          <input name="image" className="image" type="text" placeholder="url"
+                 onChange={(event) => setData({...data, image: event.target.value})} />
           <p>내용</p>
           <input
             name="content"
             className="content"
             type="text"
             placeholder="내용"
+            onChange={(event) => setData({...data, content: event.target.value})}
           />
           <input className="submit" type="submit" value="Create"></input>
         </form>
@@ -90,19 +83,16 @@ function App() {
   // const [nextId, setNextId] = useState(4);
   const [topics, setTopics] = useState([
     {
-      id: 1,
       name: "1",
       content: "1",
       image: "images/1.jpg",
     },
     {
-      id: 2,
       name: "2",
       content: "2",
       image: "images/2.jpg",
     },
     {
-      id: 3,
       name: "3",
       content: "3",
       image: "images/3.jpg",
@@ -133,12 +123,12 @@ function App() {
   if (mode === "CREATE") {
     box = (
       <Create
-        onCreate={(_name, _image, _content) => {
+        onCreate={({ name, image, content }) => {
           const newTopic = {
             // id: nextId,
-            name: _name,
-            image: _image,
-            content: _content,
+            name,
+            image,
+            content,
           };
           const newTopics = [...topics];
           // value값을 복제한 새로운 value
@@ -158,7 +148,9 @@ function App() {
   return (
     <div className="App">
       <div className="main">
-        <Header />
+      <header>
+        <h1>고량주</h1>
+      </header>
         <div className="container">
           <aside>
             <button
